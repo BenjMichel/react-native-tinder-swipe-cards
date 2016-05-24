@@ -63,15 +63,15 @@ class SwipeCards extends Component {
         this.state.pan.flattenOffset();
         var velocity;
 
-        if (vx >= 0) {
-          velocity = clamp(vx, 3, 5);
-        } else if (vx < 0) {
-          velocity = clamp(vx * -1, 3, 5) * -1;
+        if (vy >= 0) {
+          velocity = clamp(vy, 3, 5);
+        } else if (vy < 0) {
+          velocity = clamp(vy * -1, 3, 5) * -1;
         }
 
-        if (Math.abs(this.state.pan.x._value) > SWIPE_THRESHOLD) {
+        if (Math.abs(this.state.pan.y._value) > SWIPE_THRESHOLD) {
 
-          this.state.pan.x._value > 0
+          this.state.pan.y._value > 0
             ? this.props.handleYup(this.state.card)
             : this.props.handleNope(this.state.card)
 
@@ -80,7 +80,7 @@ class SwipeCards extends Component {
             : null
 
           Animated.decay(this.state.pan, {
-            velocity: {x: velocity, y: vy},
+            velocity: {x: vx, y: velocity},
             deceleration: 0.98
           }).start(this._resetState.bind(this))
         } else {
@@ -118,18 +118,18 @@ class SwipeCards extends Component {
 
     let [translateX, translateY] = [pan.x, pan.y];
 
-    let rotate = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
-    let opacity = pan.x.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]});
+    let rotate = pan.y.interpolate({inputRange: [-200, 0, 200], outputRange: ["-30deg", "0deg", "30deg"]});
+    let opacity = pan.y.interpolate({inputRange: [-200, 0, 200], outputRange: [0.5, 1, 0.5]});
     let scale = enter;
 
     let animatedCardstyles = {transform: [{translateX}, {translateY}, {rotate}, {scale}], opacity};
 
-    let yupOpacity = pan.x.interpolate({inputRange: [0, 150], outputRange: [0, 1]});
-    let yupScale = pan.x.interpolate({inputRange: [0, 150], outputRange: [0.5, 1], extrapolate: 'clamp'});
+    let yupOpacity = pan.y.interpolate({inputRange: [0, 150], outputRange: [0, 1]});
+    let yupScale = pan.y.interpolate({inputRange: [0, 150], outputRange: [0.5, 1], extrapolate: 'clamp'});
     let animatedYupStyles = {transform: [{scale: yupScale}], opacity: yupOpacity}
 
-    let nopeOpacity = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0]});
-    let nopeScale = pan.x.interpolate({inputRange: [-150, 0], outputRange: [1, 0.5], extrapolate: 'clamp'});
+    let nopeOpacity = pan.y.interpolate({inputRange: [-150, 0], outputRange: [1, 0]});
+    let nopeScale = pan.y.interpolate({inputRange: [-150, 0], outputRange: [1, 0.5], extrapolate: 'clamp'});
     let animatedNopeStyles = {transform: [{scale: nopeScale}], opacity: nopeOpacity}
 
     return (
