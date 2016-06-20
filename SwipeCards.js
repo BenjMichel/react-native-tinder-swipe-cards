@@ -133,43 +133,13 @@ class SwipeCards extends Component {
     let animatedNopeStyles = {transform: [{scale: nopeScale}], opacity: nopeOpacity}
 
     return (
-      <View style={styles.container}>
-        { this.state.card
-            ? (
-            <Animated.View style={[styles.card, animatedCardstyles]} {...this._panResponder.panHandlers}>
-              {this.renderCard(this.state.card)}
-            </Animated.View>
-            )
-            : this.renderNoMoreCards() }
-
-
-        { this.props.renderNope
-          ? this.props.renderNope(pan)
-          : (
-              this.props.showNope
-              ? (
-                <Animated.View style={[styles.nope, animatedNopeStyles]}>
-                  <Text style={styles.nopeText}>Nope!</Text>
-                </Animated.View>
-                )
-              : null
-            )
-        }
-
-        { this.props.renderYup
-          ? this.props.renderYup(pan)
-          : (
-              this.props.showYup
-              ? (
-                <Animated.View style={[styles.yup, animatedYupStyles]}>
-                  <Text style={styles.yupText}>Yup!</Text>
-                </Animated.View>
-              )
-              : null
-            )
-        }
-
-      </View>
+      this.state.card
+        ? (
+        <Animated.View style={[this.props.stylesCard, animatedCardstyles]} {...this._panResponder.panHandlers}>
+          {this.renderCard(this.state.card)}
+        </Animated.View>
+        )
+        : this.renderNoMoreCards()
     );
   }
 }
@@ -182,7 +152,8 @@ SwipeCards.propTypes = {
   showYup: React.PropTypes.bool,
   showNope: React.PropTypes.bool,
   handleYup: React.PropTypes.func,
-  handleNope: React.PropTypes.func
+  handleNope: React.PropTypes.func,
+  stylesCard: React.PropTypes.object,
 };
 
 SwipeCards.defaultProps = {
